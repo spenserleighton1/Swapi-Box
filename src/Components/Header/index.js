@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import './styles.css';
 
 const Header = () => {
   return(
-    <h1>Star Wars</h1>
+    <div className="header">
+      Header
+    </div>
     )
 }
 
