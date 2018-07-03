@@ -1,10 +1,13 @@
 import React from 'react';
+import Button from '../Button';
 import './styles.css';
 
 const Header = () => {
   return(
     <div className="header">
-      Header
+      <Button name={"people"} />
+      <Button name="planets" />
+      <Button name="vehicles" />
     </div>
     )
 }
