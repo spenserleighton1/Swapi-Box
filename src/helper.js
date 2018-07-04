@@ -1,3 +1,4 @@
+import { getPlanet } from './api-helper.js'
 
 export const asideDataCleaner = data => (
   // const num = Math.floor(Math.random()*(data.count));
@@ -6,6 +7,16 @@ export const asideDataCleaner = data => (
       year: data.results[Math.floor(Math.random()*(data.count))].release_date
     });
 
+export const planetDataCleaner = data => {
+  let cd = data.map(planet => ({
+    name: planet.name,
+    population: planet.population,
+    terrain: planet.terrain,
+    climate: planet.climate,
+    residents: planet.residents
+  }))
+return cd
+}
 
 
 
