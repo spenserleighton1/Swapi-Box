@@ -9,27 +9,38 @@ class App extends Component {
     super()
 
     this.state = {
-      asideData: {}
+      asideData: {},
+      people: []
     }
   }
 
   componentDidMount() {
     this.getMovie('https://swapi.co/api/films/')
+    this.getPeople('https://swapi.co/api/people/')
   }
 
-  newState = (data) => {
-    this.setState({
-      asideData: asideDataCleaner(data)
+  getPeople = (url) => {
+    fetch(url)
+    .then(response => response.json())
+    .then(data => this.deepFetch(data.results, 'homeworld') && this.deepFetch(data.results, 'species'))
+    .then(people => this.setState({ people }))
+  }
+
+  deepFetch = (arr, str) => {
+    const unresolvedPromises = arr.map(item => {
+      return fetch(item[str])
+        .then(response => response.json())
+        .then(results => ({...item, [str]: results.name }))        
     })
+    return Promise.all(unresolvedPromises)
   }
 
   getMovie = (url) => {
     fetch(url)
       .then(response => response.json())
-      .then(data => this.newState(data))
-      .catch(() => {
-        alert('Sorry, we could not find that location, please enter your search in the correct format');
-      });
+      .then(data => this.setState({
+      asideData: asideDataCleaner(data)
+    }))
   }
 
   render() {
