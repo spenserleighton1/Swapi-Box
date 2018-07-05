@@ -1,23 +1,33 @@
-import { getPlanet } from './api-helper.js'
+import { getPlanet, getMovie } from './api-helper.js'
 
 export const asideDataCleaner = data => (
-  // const num = Math.floor(Math.random()*(data.count));
     { scroll: data.results[Math.floor(Math.random()*(data.count))].opening_crawl,
       title: data.results[Math.floor(Math.random()*(data.count))].title,
       year: data.results[Math.floor(Math.random()*(data.count))].release_date
     });
 
 export const planetDataCleaner = data => {
-  let cd = data.map(planet => ({
-    name: planet.name,
-    population: planet.population,
-    terrain: planet.terrain,
-    climate: planet.climate,
-    residents: planet.residents
-  }))
-return cd
+  const planetData = data.map(planet => {
+    return {
+      name: planet.name,
+      population: planet.population,
+      terrain: planet.terrain,
+      climate: planet.climate,
+      residents: planet.residents
+    }
+  })
+return planetData
 }
 
+export const vehicleCleaner = (vehicles) => {
+  const vehicleData = vehicles.map(vehicle => ({
+    name: vehicle.name,
+    model: vehicle.model,
+    class: vehicle.vehicle_class,
+    numOfPassengers: vehicle.passengers
+  }))
+  return vehicleData
+}
 
 
 

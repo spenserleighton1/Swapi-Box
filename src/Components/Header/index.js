@@ -2,14 +2,16 @@ import React from 'react';
 import Button from '../Button';
 import './styles.css';
 
-const Header = ({ getPeople }) => {
+const Header = ({ getPeople, getPlanets, getVehicles }) => {
   return(
     <div className="header">
-    <h1>Star Wars Somthing Box</h1>
+    <h1>Something about Star Wars?</h1>
       <Button name="people"
-              getPeople={ getPeople } />
-      <Button name="planets" />
-      <Button name="vehicles" />
+              get={ getPeople } />
+      <Button name="planets"
+              get={ getPlanets } />
+      <Button name="vehicles"
+              get={ getVehicles } />
     </div>
     )
 }

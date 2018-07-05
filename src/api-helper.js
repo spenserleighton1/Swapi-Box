@@ -1,4 +1,4 @@
-import { planetDataCleaner } from './helper.js'
+import { planetDataCleaner, asideDataCleaner } from './helper.js'
 
 export const getPeople = (url) => {
   fetch(url)
@@ -26,26 +26,38 @@ export const fetchSpecies = (arr) => {
   return Promise.all(unresolvedPromises)
 }
 
-
-const getResidents = (arr) => {
-    const unresolvedPromises = arr.map(planet => {
-      return fetch(planet.residents)
-              .then(response => response.json())
-              .then(resident => planet.residents = [...resident.name])
-    })
-    return Promise.all(unresolvedPromises)
+export const getMovie = (url) => {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => asideDataCleaner(data))
 }
 
-export const getPlanetData = (url) => {
-  fetch(url)
+export const getResidents = (arr) => {
+  const unresolvedPromises = arr.map(planet => {
+    this.getResidentNames(planet.residents)
+      .then(names => planet.residents = names)
+    return planet;
+  })
+  return Promise.all(unresolvedPromises)
+}
+
+export const getResidentNames = (arr) => {
+  const unresolvedPromises = arr.map(resident => {
+    return fetch(resident)
+            .then(response => response.json())
+            .then(resident => resident.name)
+  })
+  return Promise.all(unresolvedPromises)
+}
+
+export const getPlanets = (url) => {
+  return fetch(url)
     .then(response => response.json())
     .then(data => planetDataCleaner(data.results))
-    .then(planets => getResidents(planets))
-    // .then(log => console.log(log))
+    .then(planets => this.getResidents(planets))  
+    .then(state => this.setState({ planets: state }))
     .catch(error => console.log(error))
 }
-
-
 
 
 

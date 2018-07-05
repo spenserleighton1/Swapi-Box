@@ -8,14 +8,16 @@ class Button extends Component {
   
   handleClick = (e) => {
     e.preventDefault()
-    this.props.getPeople()
+    // const name = e.target.name;
+    // console.log(e.target)
+    this.props.get()
   }
 
   render() {
     return(
       <button
         className="button"
-        onClick={ this.handleClick }>{this.props.name}</button>
+        onClick={ this.handleClick }>{ this.props.name }</button>
       )
   }  
 }

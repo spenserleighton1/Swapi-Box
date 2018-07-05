@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { asideDataCleaner, planetDataCleaner } from '../../helper.js';
-import { getPeople, getPlanetData } from '../../api-helper.js'
+import { asideDataCleaner, planetDataCleaner, vehicleCleaner } from '../../helper.js';
+import { getPeople, getPlanetData, getM } from '../../api-helper.js'
 import Header from '../Header';
 import Aside from '../Aside';
 import CardContainer from '../CardContainer';
@@ -11,21 +11,35 @@ class App extends Component {
     super()
 
     this.state = {
-      asideData: {},
+      movie: {},
       people: [],
       planets: [],
-      favorites: []
+      favorites: [],
+      vehicles: []
     }
   }
 
   componentDidMount() {
-    this.getMovie('https://swapi.co/api/films/')
-    this.getPlanet('https://swapi.co/api/planets/')
+    this.getMovie('https://swapi.co/api/films/')    
   }
 
   peopleState = () => {
     this.getPeople('https://swapi.co/api/people/') 
   } 
+
+  planetState = () => {
+    this.getPlanets('https://swapi.co/api/planets/')
+  }
+
+  vehicleState = () => {
+    this.getVehicles('https://swapi.co/api/vehicles/')
+  }
+
+  getVehicles = (url) => {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => this.setState({ vehicles: vehicleCleaner(data.results)}))
+  }
 
   getPeople = (url) => {
     fetch(url)
@@ -35,20 +49,20 @@ class App extends Component {
     .then(people => this.setState({ people }))
   }
 
-  fetchPeople = (arr) => {
-    const unresolvedPromises = arr.map(peep => {
-      return fetch(peep.homeworld)
+  fetchPeople = (characters) => {
+    const unresolvedPromises = characters.map(character => {
+      return fetch(character.homeworld)
         .then(response => response.json())
-        .then(homeworld => ({...peep, homeworld: homeworld.name, homeworldPopulation: homeworld.population }))        
+        .then(homeworld => ({...character, homeworld: homeworld.name, homeworldPopulation: homeworld.population }))        
     })
     return Promise.all(unresolvedPromises)
   }
 
-  fetchSpecies = (arr) => {
-    const unresolvedPromises = arr.map(peep => {
-      return fetch(peep.species)
+  fetchSpecies = (characterSpecies) => {
+    const unresolvedPromises = characterSpecies.map(character => {
+      return fetch(character.species)
         .then(response => response.json())
-        .then(species => ({...peep, species: species.name}))
+        .then(species => ({...character, species: species.name}))
     })
     return Promise.all(unresolvedPromises)
   }
@@ -57,29 +71,33 @@ class App extends Component {
   getMovie = (url) => {
     fetch(url)
       .then(response => response.json())
-      .then(data => this.setState({ asideData: asideDataCleaner(data) }))
+      .then(data => this.setState({ movie: asideDataCleaner(data) }))
   }
 
-  getResidents = (arr) => {
-    const unresolvedPromises = arr.map(planet => {
-      const p = planet.residents.map(resident => {
-        return fetch(resident)
-          .then(response => response.json())
-          .then(results => ({...planet, residents: results.name }))
-          // .then(a => console.log(a))
-          .catch(error => console.log(error))
-      })
-      return Promise.all(p)
+  getResidents = (planets) => {
+    const unresolvedPromises = planets.map(planet => {
+      this.getResidentNames(planet.residents)
+        .then(names => planet.residents = names)
+      return planet;
     })
-    // console.log(p)
     return Promise.all(unresolvedPromises)
   }
 
-  getPlanet = (url) => {
-    fetch(url)
+  getResidentNames = (residents) => {
+    const unresolvedPromises = residents.map(resident => {
+      return fetch(resident)
+        .then(response => response.json())
+        .then(resident => resident.name)
+        .catch(error => console.log(error))
+    })
+    return Promise.all(unresolvedPromises)
+  }
+
+  getPlanets = (url) => {
+    return fetch(url)
       .then(response => response.json())
-      .then(data => planetDataCleaner(data.results))
-      .then(planets => this.getResidents(planets))
+      .then(planets => planetDataCleaner(planets.results))
+      .then(planetResidents => this.getResidents(planetResidents))  
       .then(planets => this.setState({ planets }))
       .catch(error => console.log(error))
   }
@@ -98,9 +116,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header getPeople={ this.peopleState } />
-        <Aside movie={ this.state.asideData } />
+        <Header getPeople={ this.peopleState }
+                getPlanets={ this.planetState } 
+                getVehicles= { this.vehicleState } />
+        <Aside movie={ this.state.movie } />
         <CardContainer 
+          planets={ this.state.planets }
           people={ this.state.people }
           favorite={ this.favorite } />
       </div>
