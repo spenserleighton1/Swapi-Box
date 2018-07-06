@@ -7,11 +7,11 @@ const Header = ({ getPeople, getPlanets, getVehicles }) => {
     <div className="header">
     <h1>Something about Star Wars?</h1>
       <Button name="people"
-              get={ getPeople } />
+              getPeople={ getPeople } />
       <Button name="planets"
-              get={ getPlanets } />
+              getPlanets={ getPlanets } />
       <Button name="vehicles"
-              get={ getVehicles } />
+              getVehicles={ getVehicles } />
     </div>
     )
 }

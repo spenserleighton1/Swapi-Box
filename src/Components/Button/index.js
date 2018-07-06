@@ -8,9 +8,19 @@ class Button extends Component {
   
   handleClick = (e) => {
     e.preventDefault()
-    // const name = e.target.name;
-    // console.log(e.target)
-    this.props.get()
+
+    switch(this.props.name) {
+    case 'people':
+        this.props.getPeople()
+        break;
+    case 'planets':
+        this.props.getPlanets()
+        break;
+    case 'vehicles':
+        this.props.getVehicles()
+    default:
+        console.log('error')
+    }
   }
 
   render() {
