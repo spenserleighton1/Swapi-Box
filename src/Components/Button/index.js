@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './styles.css'
 
 class Button extends Component {
@@ -6,9 +7,8 @@ class Button extends Component {
     super(props)
   }
   
-  handleClick = (e) => {
-    e.preventDefault()
-
+  handleClick = (event) => {
+    event.preventDefault()
     switch(this.props.name) {
     case 'people':
         this.props.getPeople()
@@ -18,8 +18,9 @@ class Button extends Component {
         break;
     case 'vehicles':
         this.props.getVehicles()
+        break;
     default:
-        console.log('error')
+        this.props.getVehicles()
     }
   }
 
@@ -31,5 +32,12 @@ class Button extends Component {
       )
   }  
 }
+
+Button.propTypes = {
+  name: PropTypes.string.isRequired,
+  getPeople: PropTypes.func.isRequired,
+  getPlanets: PropTypes.func.isRequired,
+  getVehicles: PropTypes.func.isRequired
+};
 
 export default Button;

@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 import './styles.css';
 
 const Header = ({ getPeople, getPlanets, getVehicles }) => {
@@ -16,4 +17,11 @@ const Header = ({ getPeople, getPlanets, getVehicles }) => {
     )
 }
 
+Header.propTypes = {
+  getPeople: PropTypes.func.isRequired,
+  getPlanets: PropTypes.func.isRequired,
+  getVehicles: PropTypes.func.isRequired
+};
+
 export default Header;
+

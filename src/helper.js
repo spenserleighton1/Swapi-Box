@@ -1,4 +1,3 @@
-// import { getPlanet } from './api-helper.js'
 
 export const scrollCleaner = data => (
     { scroll: data.results[Math.floor(Math.random()*(data.count))].opening_crawl,
@@ -7,28 +6,36 @@ export const scrollCleaner = data => (
     });
 
 export const planetDataCleaner = data => {
-  const planetData = data.map(planet => {
+  return data.map(planet => {
     return {
       name: planet.name,
       population: planet.population,
       terrain: planet.terrain,
       climate: planet.climate,
-      residents: planet.residents
+      residents: planet.residents,
+      favorite: false
     }
   })
-return planetData
 }
 
-export const vehicleCleaner = (vehicles) => {
-  const vehicleData = vehicles.map(vehicle => ({
+export const vehicleCleaner = vehicles => {
+  return vehicles.map(vehicle => ({
     name: vehicle.name,
     model: vehicle.model,
     class: vehicle.vehicle_class,
-    numOfPassengers: vehicle.passengers
+    numOfPassengers: vehicle.passengers,
+    favorite: false
   }))
-  return vehicleData
 }
 
+export const peopleCleaner = people => {
+  return people.map(person => ({
+    name: person.name,
+    homeworld: person.homeworld,
+    species: person.species,
+    homeworldPopulation: person.homeworldPopulation
+  }))
+}
 
 
 
