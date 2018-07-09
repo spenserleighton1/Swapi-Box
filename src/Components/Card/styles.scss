@@ -1,0 +1,24 @@
+.card {
+  display: inline-block;
+  width: 200px;
+  border-radius: 7px;
+  border: 1px solid black; 
+  margin: 5px;
+  background-color: gray;
+}
+
+.card-button {
+  font-size: 18px;
+  height: 35px;
+  width: 100px;
+  margin: 5px;
+  color: yellow;
+  border: 2px solid yellow;
+  border-radius: 7px;
+  background-color: transparent;
+}
+
+.card-button:hover,
+.card-button:active {
+  border: 2px solid white;
+}

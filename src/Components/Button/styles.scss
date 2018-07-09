@@ -1,0 +1,15 @@
+.button {
+  font-size: 18px;
+  height: 35px;
+  width: 100px;
+  margin: 5px;
+  color: yellow;
+  border: 2px solid yellow;
+  border-radius: 7px;
+  background-color: #19212A;
+}
+
+.button:hover,
+.button:active {
+  border: 2px solid white;
+}
