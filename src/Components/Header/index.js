@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 import './styles.css';
 
 const Header = ({ getPeople, getPlanets, getVehicles }) => {
-  return(
+  return (
     <div className="header">
-    <h1>Something about Star Wars?</h1>
+      <h1>Something about Star Wars?</h1>
       <Button name="people"
-              getPeople={ getPeople } />
+        getPeople={ getPeople } />
       <Button name="planets"
-              getPlanets={ getPlanets } />
+        getPlanets={ getPlanets } />
       <Button name="vehicles"
-              getVehicles={ getVehicles } />
+        getVehicles={ getVehicles } />
     </div>
-    )
-}
+  );
+};
 
 Header.propTypes = {
-  getPeople: PropTypes.func.isRequired,
-  getPlanets: PropTypes.func.isRequired,
-  getVehicles: PropTypes.func.isRequired
+  getPeople: PropTypes.func,
+  getPlanets: PropTypes.func,
+  getVehicles: PropTypes.func
 };
 
 export default Header;

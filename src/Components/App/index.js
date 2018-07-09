@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { getPeople, getPlanets, getMovie, getVehicles } from '../../api-helper.js'
-import { vehicleCleaner, scrollCleaner } from '../../helper.js'
+import { getPeople, getPlanets, getMovie, getVehicles } from '../../api-helper.js';
+import { vehicleCleaner, scrollCleaner } from '../../helper.js';
 import LandingPage from '../LandingPage';
 import Header from '../Header';
 import Aside from '../Aside';
@@ -9,80 +9,75 @@ import './styles.css';
 
 class App extends Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
       movie: {},
-      people: [],
-      planets: [],
       favorites: [],
-      vehicles: [],
-      selected: ''
-    }
+      cards: []
+    };
   }
 
   componentDidMount() {
     getMovie()
-      .then(data => scrollCleaner(data))
-      .then(movie => this.setState({ movie }))
+      .then(movieData => scrollCleaner(movieData))
+      .then(movie => this.setState({ movie }));
   }
 
   peopleState = () => {
-    getPeople().then(people => this.setState({ people })) 
-    this.setState({ selected: 'people'})
+    getPeople().then(cards => this.setState({ cards }));
   } 
 
   planetState = () => {
-    getPlanets().then(planets => {
-      this.setState({ planets })
-    })
-    this.setState({ selected: 'planets'})
+    getPlanets().then(cards => {
+      this.setState({ cards });
+    });
   }
 
   vehicleState = () => {
     getVehicles()
-      .then(data => vehicleCleaner(data))
-      .then(vehicles => this.setState({ vehicles }))
-    this.setState({ selected: 'vehicles'})
+      .then(vehicleData => vehicleCleaner(vehicleData))
+      .then(cards => this.setState({ cards }));
   }
 
-  favorite = (str, stateName) => {
-    const favorite = this.state[stateName].find(item => {
-      if (item.name === str) {
-        item.favorite = !item.favorite
-        return item
+  favorite = (str) => {
+    let favorites = this.state.cards.find(item => {
+      if (item.name === str && !item.favorite) {
+        item.favorite = true;
+        return item;
       } 
-    })
-    console.log(favorite)
-    this.setState({ favorites: [favorite, ...this.state.favorites] })
-  }
-
-  removeFavorite = () => {
-
+    });
+    this.setState({ favorites: [favorites, ...this.state.favorites] });
   }
 
   render() {
-    return (
-      <div className="App">
-      <button
-        onClick={() => {this.setState({selected: 'favorites' })} }>favorite</button>
-        <Header 
-          getPeople={ this.peopleState }
-          getPlanets={ this.planetState } 
-          getVehicles= { this.vehicleState } />
-
-        <Aside movie={ this.state.movie } />
-
-        <CardContainer 
-          selected={ this.state.selected }
-          favorites={ this.state.favorites }
-          planets={ this.state.planets }
-          people={ this.state.people }
-          vehicles={ this.state.vehicles }
-          favorite={ this.favorite } />
-        <LandingPage />
-      </div>
-    );
+    if (!this.state.cards.length) { 
+      return (
+        <div className="App">
+          <Header 
+            getPeople={ this.peopleState }
+            getPlanets={ this.planetState } 
+            getVehicles= { this.vehicleState } />
+          <Aside movie={ this.state.movie } />
+          <LandingPage />
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <button
+            onClick={ ()=>{ this.setState({ cards: this.state.favorites }); }}>favorite</button>
+          <Header 
+            getPeople={ this.peopleState }
+            getPlanets={ this.planetState } 
+            getVehicles= { this.vehicleState } />
+          <Aside movie={ this.state.movie } />
+          <CardContainer 
+            cards={ this.state.cards }
+            favorite={ this.favorite } />
+        </div>
+      );
+    }
   }
 }
 

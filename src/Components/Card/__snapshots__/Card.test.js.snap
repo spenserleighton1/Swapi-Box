@@ -4,7 +4,25 @@ exports[`Card should match the snapshot 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Card />,
+  Symbol(enzyme.__unrendered__): <Card
+    favorite={[Function]}
+    info={
+        Array [
+            Object {
+              "homeworld": "Tatooine",
+              "homeworldPopulation": "200000",
+              "name": "Luke Skywalker",
+              "species": "Human",
+            },
+            Object {
+              "homeworld": "Tatooine",
+              "homeworldPopulation": "200000",
+              "name": "Lisa Skywalker",
+              "species": "Human",
+            },
+          ]
+    }
+/>,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],

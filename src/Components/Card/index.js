@@ -2,49 +2,53 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
 
-
-const Card = ({ person, planet, vehicle, favorite }) => {
-  if (person) {
+const Card = ({ info, favorite }) => {
+  if (info.species) {
     return (
       <div className="card">
-        <h3>{ person.name }</h3>
-        <p>species: { person.species }</p>
-        <p>home world: { person.homeworld } population: { person.homeworldPopulation }</p>
+        <h3>{ info.name }</h3>
+        <p>species: { info.species }</p>
+        <p>home world: { info.homeworld } population: { info.homeworldPopulation }</p>
         <button
           className="card-button"
-          onClick={ () => { favorite(person.name, 'people') } }>favorite</button>
+          onClick={ () => { favorite(info.name); } }>favorite</button>
       </div>
-      )
+    );
   }
 
-  if (planet) {
+  if (info.terrain) {
     return (
-        <div className="card">
-          <h3>{ planet.name }</h3>
-          <p>population: { planet.population }</p>
-          <p>terrain: { planet.terrain }</p>
-          <p>climate: { planet.climate }</p>
-          <p>residents: { planet.residents.join(', ')}</p>
-          <button
-            className="card-button"
-            onClick={ () => { favorite(planet.name, 'planets') } }>favorite</button>
-        </div>
-      )
+      <div className="card">
+        <h3>{ info.name }</h3>
+        <p>population: { info.population }</p>
+        <p>terrain: { info.terrain }</p>
+        <p>climate: { info.climate }</p>
+        <p>residents: { info.residents.join(', ')}</p>
+        <button
+          className="card-button"
+          onClick={ () => { favorite(info.name); } }>favorite</button>
+      </div>
+    );
   }
 
-  if (vehicle) {
+  if (info.model) {
     return (
-        <div className="card">
-          <h3>{ vehicle.name }</h3>
-          <p>model: { vehicle.model }</p>
-          <p>class: { vehicle.class }</p>
-          <p>passengers: { vehicle.numOfPassengers }</p>
-          <button
-            className="card-button"
-            onClick={ () => { favorite(vehicle.name, 'vehicles') } }>favorite</button>
-        </div>
-      )
+      <div className="card">
+        <h3>{ info.name }</h3>
+        <p>model: { info.model }</p>
+        <p>class: { info.class }</p>
+        <p>passengers: { info.numOfPassengers }</p>
+        <button
+          className="card-button"
+          onClick={ () => { favorite(info.name); } }>favorite</button>
+      </div>
+    );
   }
-}
+};
+
+Card.propTypes = {
+  info: PropTypes.array.isRequired,
+  favorite: PropTypes.func
+};
 
 export default Card;
